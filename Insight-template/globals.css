@@ -1,0 +1,44 @@
+.status-active {
+    background-color: #475569;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+}
+.status-warning {
+    background-color: #F59E0B;
+    color: black;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+}
+.status-danger {
+    background-color: #DC2626;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+}
+.role-admin {
+    background-color: #475569;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+}
+.role-auditor {
+    background-color: #6B7280;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+}
+.role-investigation {
+    background-color: #F59E0B;
+    color: black;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+}
+.sidebar-collapsed {
+    transform: translateX(-100%);
+}
+@media (min-width: 768px) {
+    .sidebar-collapsed {
+        transform: translateX(0);
+    }
+}
