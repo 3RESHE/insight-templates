@@ -1,779 +1,1772 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Utilizations - INSIGHT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#475569',
-                        secondary: '#6B7280',
-                        accent: '#F59E0B',
-                        neutral1: '#F9FAFB',
-                        neutral2: '#E5E7EB',
-                        neutral3: '#374151',
-                        danger: '#DC2626',
-                        warning: '#F59E0B',
-                        info: '#475569'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#475569",
+              secondary: "#6B7280",
+              accent: "#F59E0B",
+              neutral1: "#F9FAFB",
+              neutral2: "#E5E7EB",
+              neutral3: "#374151",
+              danger: "#DC2626",
+              warning: "#F59E0B",
+              info: "#475569",
+            },
+          },
+        },
+      };
     </script>
     <style>
-        .status-underutilized { background-color: #10B981; color: white; padding: 0.25rem 0.75rem; border-radius: 0.375rem; }
-        .status-within-limit { background-color: #475569; color: white; padding: 0.25rem 0.75rem; border-radius: 0.375rem; }
-        .status-warning { background-color: #F59E0B; color: black; padding: 0.25rem 0.75rem; border-radius: 0.375rem; }
-        .status-overutilized { background-color: #DC2626; color: white; padding: 0.25rem 0.75rem; border-radius: 0.375rem; }
-        .tab-active { background-color: #475569; color: white; }
-        .tab-inactive { background-color: #E5E7EB; color: #374151; }
-        .sidebar-collapsed { transform: translateX(-100%); }
-        @media (min-width: 768px) {
-            .sidebar-collapsed { transform: translateX(0); }
+      .status-underutilized {
+        background-color: #10b981;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.375rem;
+      }
+      .status-within-limit {
+        background-color: #475569;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.375rem;
+      }
+      .status-warning {
+        background-color: #f59e0b;
+        color: black;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.375rem;
+      }
+      .status-overutilized {
+        background-color: #dc2626;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.375rem;
+      }
+      .tab-active {
+        background-color: #475569;
+        color: white;
+      }
+      .tab-inactive {
+        background-color: #e5e7eb;
+        color: #374151;
+      }
+      .sidebar-collapsed {
+        transform: translateX(-100%);
+      }
+      @media (min-width: 768px) {
+        .sidebar-collapsed {
+          transform: translateX(0);
         }
+      }
     </style>
-</head>
-<body class="bg-neutral1 text-neutral3 font-sans">
+  </head>
+  <body class="bg-neutral1 text-neutral3 font-sans">
     <!-- Top Navigation -->
-    <nav class="bg-white border-b border-neutral2 fixed top-0 left-0 right-0 z-50 h-16 shadow-sm">
-        <div class="flex items-center justify-between h-full px-4 max-w-7xl mx-auto">
-            <div class="flex items-center space-x-4">
-                <button id="sidebar-toggle" class="md:hidden p-2 rounded-lg hover:bg-neutral2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">I</span>
-                    </div>
-                    <h1 class="text-xl font-semibold text-neutral3">INSIGHT</h1>
-                    <span class="text-sm text-neutral3 hidden sm:block">Investigation & Compliance System</span>
-                </div>
+    <nav
+      class="bg-white border-b border-neutral2 fixed top-0 left-0 right-0 z-50 h-16 shadow-sm"
+    >
+      <div
+        class="flex items-center justify-between h-full px-4 max-w-7xl mx-auto"
+      >
+        <div class="flex items-center space-x-4">
+          <button
+            id="sidebar-toggle"
+            class="md:hidden p-2 rounded-lg hover:bg-neutral2"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"
+            >
+              <span class="text-white font-bold text-sm">I</span>
             </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative hidden md:block">
-                    <input type="text" id="global-search" placeholder="Search..." class="bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 pl-10 w-64 focus:outline-none focus:ring-2 focus:ring-primary">
-                    <svg class="w-4 h-4 absolute left-3 top-3 text-neutral3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-                <div class="relative">
-                    <button id="user-menu-button" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-neutral2">
-                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                            <span class="text-white text-sm font-medium" id="user-initials">AD</span>
-                        </div>
-                        <span class="hidden sm:block text-sm" id="user-name">Admin User</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-neutral2 rounded-lg shadow-lg">
-                        <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral2">Profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral2">Settings</a>
-                        <hr class="border-neutral2">
-                        <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral2 text-danger">Logout</a>
-                    </div>
-                </div>
-            </div>
+            <h1 class="text-xl font-semibold text-neutral3">INSIGHT</h1>
+            <span class="text-sm text-neutral3 hidden sm:block"
+              >Investigation & Compliance System</span
+            >
+          </div>
         </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative hidden md:block">
+            <input
+              type="text"
+              id="global-search"
+              placeholder="Search..."
+              class="bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 pl-10 w-64 focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <svg
+              class="w-4 h-4 absolute left-3 top-3 text-neutral3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+          </div>
+          <div class="relative">
+            <button
+              id="user-menu-button"
+              class="flex items-center space-x-2 p-2 rounded-lg hover:bg-neutral2"
+            >
+              <div
+                class="w-8 h-8 bg-primary rounded-full flex items-center justify-center"
+              >
+                <span class="text-white text-sm font-medium" id="user-initials"
+                  >AD</span
+                >
+              </div>
+              <span class="hidden sm:block text-sm" id="user-name"
+                >Admin User</span
+              >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            <div
+              id="user-menu"
+              class="hidden absolute right-0 mt-2 w-48 bg-white border border-neutral2 rounded-lg shadow-lg"
+            >
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral2"
+                >Profile</a
+              >
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral2"
+                >Settings</a
+              >
+              <hr class="border-neutral2" />
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm hover:bg-neutral2 text-danger"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-neutral2 transform transition-transform duration-300 z-40">
-        <div class="p-4">
-            <nav class="space-y-1">
-                <a href="index.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
-                    </svg>
-                    <span>Dashboard</span>
-                </a>
-                <a href="companies.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                    </svg>
-                    <span>Companies</span>
-                </a>
-                <a href="licenses.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    <span>Authorizations</span>
-                </a>
-                <a href="compliance.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-                    </svg>
-                    <span>Compliance Reports</span>
-                </a>
-                <a href="utilizations.html" class="flex items-center space-x-3 p-3 rounded-lg bg-primary text-white">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    </svg>
-                    <span>Utilizations</span>
-                </a>
-                <a href="alerts.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span>Alerts</span>
-                </a>
-                <a href="investigations.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                    <span>Investigations</span>
-                </a>
-                <a href="documents.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                    </svg>
-                    <span>Documents</span>
-                </a>
-                <a href="reports.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    <span>Reports</span>
-                </a>
-                <a href="users.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-                    </svg>
-                    <span>Users/Admin</span>
-                </a>
-            </nav>
-        </div>
+    <aside
+      id="sidebar"
+      class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-neutral2 transform transition-transform duration-300 z-40"
+    >
+      <div class="p-4">
+        <nav class="space-y-1">
+          <a
+            href="index.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
+              ></path>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+          <a
+            href="companies.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+              ></path>
+            </svg>
+            <span>Companies</span>
+          </a>
+          <a
+            href="licenses.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              ></path>
+            </svg>
+            <span>Authorizations</span>
+          </a>
+          <a
+            href="compliance.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+              ></path>
+            </svg>
+            <span>Compliance Reports</span>
+          </a>
+          <a
+            href="utilizations.html"
+            class="flex items-center space-x-3 p-3 rounded-lg bg-primary text-white"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              ></path>
+            </svg>
+            <span>Utilizations</span>
+          </a>
+          <a
+            href="alerts.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 17h5l-5 5v-5z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <span>Alerts</span>
+          </a>
+          <a
+            href="investigations.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+            <span>Investigations</span>
+          </a>
+          <a
+            href="documents.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+              ></path>
+            </svg>
+            <span>Documents</span>
+          </a>
+          <a
+            href="reports.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              ></path>
+            </svg>
+            <span>Reports</span>
+          </a>
+          <a
+            href="users.html"
+            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+              ></path>
+            </svg>
+            <span>Users/Admin</span>
+          </a>
+        </nav>
+      </div>
     </aside>
 
     <!-- Main Content -->
     <main class="ml-0 md:ml-64 mt-16 p-6 max-w-7xl mx-auto">
-        <!-- Tabs -->
-        <div class="bg-white border border-neutral2 rounded-lg p-4 mb-8">
-            <div class="flex space-x-2">
-                <button class="tab-btn tab-active px-4 py-2 rounded-lg font-medium" data-tab="utilizations-table-tab">Utilizations Table</button>
-                <button class="tab-btn tab-inactive px-4 py-2 rounded-lg font-medium" data-tab="utilizations-report-tab">Utilization Report</button>
-            </div>
+      <!-- Tabs -->
+      <div class="bg-white border border-neutral2 rounded-lg p-4 mb-8">
+        <div class="flex space-x-2">
+          <button
+            class="tab-btn tab-active px-4 py-2 rounded-lg font-medium"
+            data-tab="utilizations-table-tab"
+          >
+            Utilizations Table
+          </button>
+          <button
+            class="tab-btn tab-inactive px-4 py-2 rounded-lg font-medium"
+            data-tab="utilizations-report-tab"
+          >
+            Utilization Report
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Content -->
+      <div id="utilizations-table-tab" class="tab-content">
+        <!-- Filters -->
+        <div class="bg-white border border-neutral2 rounded-lg p-6 mb-8">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <input
+              type="text"
+              id="search-utilizations"
+              placeholder="Search by Auth No. or Description..."
+              class="flex-1 bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            <select
+              id="status-filter"
+              class="bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="all">All Statuses</option>
+              <option value="Underutilized">Underutilized</option>
+              <option value="Within the limit">Within the limit</option>
+              <option value="Warning">Warning</option>
+              <option value="Overutilized">Overutilized</option>
+            </select>
+            <button
+              id="add-utilization-btn"
+              class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                ></path>
+              </svg>
+              <span>Add Utilization</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Tab Content -->
-        <div id="utilizations-table-tab" class="tab-content">
-            <!-- Filters -->
-            <div class="bg-white border border-neutral2 rounded-lg p-6 mb-8">
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <input type="text" id="search-utilizations" placeholder="Search by Auth No. or Description..." class="flex-1 bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                    <select id="status-filter" class="bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <option value="all">All Statuses</option>
-                        <option value="Underutilized">Underutilized</option>
-                        <option value="Within the limit">Within the limit</option>
-                        <option value="Warning">Warning</option>
-                        <option value="Overutilized">Overutilized</option>
-                    </select>
-                    <button id="add-utilization-btn" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        <!-- Utilizations Table -->
+        <div class="bg-white border border-neutral2 rounded-lg overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full" id="utilizations-table">
+              <thead class="bg-neutral2 border-b border-neutral2">
+                <tr>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 0)"
+                  >
+                    Auth No.
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 1)"
+                  >
+                    Description of the Item
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 2)"
+                  >
+                    NSGL Code
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 3)"
+                  >
+                    Brand
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 4)"
+                  >
+                    Model
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 5, 'number')"
+                  >
+                    Specified Quantity
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 6, 'number')"
+                  >
+                    Total Used Quantity
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 7, 'number')"
+                  >
+                    Percentage
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 8, 'date')"
+                  >
+                    Date Recorded
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('utilizations-table', 9)"
+                  >
+                    Status
+                  </th>
+                  <th class="text-left p-4 font-medium">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="utilizations-table-body">
+                <tr class="border-b border-neutral2 hover:bg-neutral2/50">
+                  <td class="p-4 font-mono">EXP-IND-2025-0201</td>
+                  <td class="p-4">Industrial Water Pump</td>
+                  <td class="p-4">NSGL-001</td>
+                  <td class="p-4">Aquatech</td>
+                  <td class="p-4">WP-5000</td>
+                  <td class="p-4">1500</td>
+                  <td class="p-4">1200</td>
+                  <td class="p-4">80</td>
+                  <td class="p-4">2024-09-01</td>
+                  <td class="p-4">
+                    <span class="status-within-limit">Within the limit</span>
+                  </td>
+                  <td class="p-4">
+                    <div class="flex space-x-2">
+                      <button
+                        class="view-btn text-primary hover:text-primary/80 p-1"
+                        data-utilization="EXP-IND-2025-0201"
+                        title="View"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          ></path>
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          ></path>
                         </svg>
-                        <span>Add Utilization</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Utilizations Table -->
-            <div class="bg-white border border-neutral2 rounded-lg overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full" id="utilizations-table">
-                        <thead class="bg-neutral2 border-b border-neutral2">
-                            <tr>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 0)">Auth No.</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 1)">Description of the Item</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 2)">NSGL Code</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 3)">Brand</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 4)">Model</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 5, 'number')">Specified Quantity</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 6, 'number')">Total Used Quantity</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 7, 'number')">Percentage</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 8, 'date')">Date Recorded</th>
-                                <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('utilizations-table', 9)">Status</th>
-                                <th class="text-left p-4 font-medium">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="utilizations-table-body">
-                            <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                                <td class="p-4 font-mono">EXP-IND-2025-0201</td>
-                                <td class="p-4">Industrial Water Pump</td>
-                                <td class="p-4">NSGL-001</td>
-                                <td class="p-4">Aquatech</td>
-                                <td class="p-4">WP-5000</td>
-                                <td class="p-4">1500</td>
-                                <td class="p-4">1200</td>
-                                <td class="p-4">80</td>
-                                <td class="p-4">2024-09-01</td>
-                                <td class="p-4"><span class="status-within-limit">Within the limit</span></td>
-                                <td class="p-4">
-                                    <div class="flex space-x-2">
-                                        <button class="view-btn text-primary hover:text-primary/80 p-1" data-utilization="EXP-IND-2025-0201" title="View">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-utilization="EXP-IND-2025-0201" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="delete-btn text-danger hover:text-danger/80 p-1" data-utilization="EXP-IND-2025-0201" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                                <td class="p-4 font-mono">EXP-IND-2025-0199</td>
-                                <td class="p-4">Energy Generator Unit</td>
-                                <td class="p-4">NSGL-002</td>
-                                <td class="p-4">PowerPlus</td>
-                                <td class="p-4">GEN-3000</td>
-                                <td class="p-4">4000</td>
-                                <td class="p-4">3800</td>
-                                <td class="p-4">95</td>
-                                <td class="p-4">2024-09-02</td>
-                                <td class="p-4"><span class="status-warning">Warning</span></td>
-                                <td class="p-4">
-                                    <div class="flex space-x-2">
-                                        <button class="view-btn text-primary hover:text-primary/80 p-1" data-utilization="EXP-IND-2025-0199" title="View">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-utilization="EXP-IND-2025-0199" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="delete-btn text-danger hover:text-danger/80 p-1" data-utilization="EXP-IND-2025-0199" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                                <td class="p-4 font-mono">EXP-GLB-2025-0200</td>
-                                <td class="p-4">Raw Material Processor</td>
-                                <td class="p-4">NSGL-003</td>
-                                <td class="p-4">Industrio</td>
-                                <td class="p-4">RMP-200</td>
-                                <td class="p-4">600</td>
-                                <td class="p-4">500</td>
-                                <td class="p-4">83</td>
-                                <td class="p-4">2024-09-03</td>
-                                <td class="p-4"><span class="status-within-limit">Within the limit</span></td>
-                                <td class="p-4">
-                                    <div class="flex space-x-2">
-                                        <button class="view-btn text-primary hover:text-primary/80 p-1" data-utilization="EXP-GLB-2025-0200" title="View">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-utilization="EXP-GLB-2025-0200" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="delete-btn text-danger hover:text-danger/80 p-1" data-utilization="EXP-GLB-2025-0200" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                                <td class="p-4 font-mono">EXP-GEN-2022-0041</td>
-                                <td class="p-4">Energy Storage Unit</td>
-                                <td class="p-4">NSGL-004</td>
-                                <td class="p-4">EnerStore</td>
-                                <td class="p-4">ESU-4000</td>
-                                <td class="p-4">4000</td>
-                                <td class="p-4">4500</td>
-                                <td class="p-4">112</td>
-                                <td class="p-4">2024-09-04</td>
-                                <td class="p-4"><span class="status-overutilized">Overutilized</span></td>
-                                <td class="p-4">
-                                    <div class="flex space-x-2">
-                                        <button class="view-btn text-primary hover:text-primary/80 p-1" data-utilization="EXP-GEN-2022-0041" title="View">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-utilization="EXP-GEN-2022-0041" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="delete-btn text-danger hover:text-danger/80 p-1" data-utilization="EXP-GEN-2022-0041" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                                <td class="p-4 font-mono">EXP-IND-2025-0202</td>
-                                <td class="p-4">Water Filtration System</td>
-                                <td class="p-4">NSGL-005</td>
-                                <td class="p-4">PureFlow</td>
-                                <td class="p-4">WF-1000</td>
-                                <td class="p-4">2000</td>
-                                <td class="p-4">1800</td>
-                                <td class="p-4">90</td>
-                                <td class="p-4">2024-09-05</td>
-                                <td class="p-4"><span class="status-warning">Warning</span></td>
-                                <td class="p-4">
-                                    <div class="flex space-x-2">
-                                        <button class="view-btn text-primary hover:text-primary/80 p-1" data-utilization="EXP-IND-2025-0202" title="View">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-utilization="EXP-IND-2025-0202" title="Edit">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                            </svg>
-                                        </button>
-                                        <button class="delete-btn text-danger hover:text-danger/80 p-1" data-utilization="EXP-IND-2025-0202" title="Delete">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="utilizations-table-pagination" class="flex items-center justify-between p-4 border-t border-neutral2"></div>
-            </div>
-        </div>
-        <div id="utilizations-report-tab" class="tab-content hidden">
-            <div class="bg-white border border-neutral2 rounded-lg p-6">
-                <h3 class="text-xl font-semibold mb-4">Utilization Report</h3>
-                <p class="text-sm text-neutral3 mb-4">Summary of utilization data across all resources.</p>
-                <div class="h-64">
-                    <canvas id="utilization-chart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Add Utilization Modal -->
-        <div id="add-utilization-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50">
-            <div class="flex items-center justify-center min-h-screen p-4">
-                <div class="bg-white border border-neutral2 rounded-lg w-full max-w-2xl">
-                    <div class="flex items-center justify-between p-6 border-b border-neutral2">
-                        <h3 class="text-xl font-semibold">Add New Utilization Record</h3>
-                        <button id="close-add-utilization-modal" class="text-neutral3 hover:text-neutral3/80">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
+                      </button>
+                      <button
+                        class="edit-btn text-secondary hover:text-secondary/80 p-1"
+                        data-utilization="EXP-IND-2025-0201"
+                        title="Edit"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="delete-btn text-danger hover:text-danger/80 p-1"
+                        data-utilization="EXP-IND-2025-0201"
+                        title="Delete"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          ></path>
+                        </svg>
+                      </button>
                     </div>
-                    <form id="add-utilization-form" class="p-6 space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Auth No.</label>
-                            <input type="text" id="utilization-id" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="EXP-XXX-YYYY-XXXX">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Description of the Item</label>
-                            <input type="text" id="utilization-description" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter description">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">NSGL Code</label>
-                            <input type="text" id="utilization-nsgl" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="NSGL-XXX">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Brand</label>
-                            <input type="text" id="utilization-brand" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter brand">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Model</label>
-                            <input type="text" id="utilization-model" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter model">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Specified Quantity</label>
-                            <input type="number" id="utilization-specified" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter quantity">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Total Used Quantity</label>
-                            <input type="number" id="utilization-quantity" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter quantity">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Percentage</label>
-                            <input type="number" id="utilization-percentage" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g., 80">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Date Recorded</label>
-                            <input type="date" id="utilization-date" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Status</label>
-                            <select id="utilization-status" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                                <option value="">Select Status</option>
-                                <option value="Underutilized">Underutilized</option>
-                                <option value="Within the limit">Within the limit</option>
-                                <option value="Warning">Warning</option>
-                                <option value="Overutilized">Overutilized</option>
-                            </select>
-                        </div>
-                        <div class="flex justify-end space-x-4 pt-4">
-                            <button type="button" id="cancel-add-utilization-btn" class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2">Cancel</button>
-                            <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg">Add Utilization</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Utilization Modal -->
-        <div id="edit-utilization-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50">
-            <div class="flex items-center justify-center min-h-screen p-4">
-                <div class="bg-white border border-neutral2 rounded-lg w-full max-w-2xl">
-                    <div class="flex items-center justify-between p-6 border-b border-neutral2">
-                        <h3 class="text-xl font-semibold">Edit Utilization Record</h3>
-                        <button id="close-edit-utilization-modal" class="text-neutral3 hover:text-neutral3/80">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
+                  </td>
+                </tr>
+                <tr class="border-b border-neutral2 hover:bg-neutral2/50">
+                  <td class="p-4 font-mono">EXP-IND-2025-0199</td>
+                  <td class="p-4">Energy Generator Unit</td>
+                  <td class="p-4">NSGL-002</td>
+                  <td class="p-4">PowerPlus</td>
+                  <td class="p-4">GEN-3000</td>
+                  <td class="p-4">4000</td>
+                  <td class="p-4">3800</td>
+                  <td class="p-4">95</td>
+                  <td class="p-4">2024-09-02</td>
+                  <td class="p-4">
+                    <span class="status-warning">Warning</span>
+                  </td>
+                  <td class="p-4">
+                    <div class="flex space-x-2">
+                      <button
+                        class="view-btn text-primary hover:text-primary/80 p-1"
+                        data-utilization="EXP-IND-2025-0199"
+                        title="View"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          ></path>
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="edit-btn text-secondary hover:text-secondary/80 p-1"
+                        data-utilization="EXP-IND-2025-0199"
+                        title="Edit"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="delete-btn text-danger hover:text-danger/80 p-1"
+                        data-utilization="EXP-IND-2025-0199"
+                        title="Delete"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          ></path>
+                        </svg>
+                      </button>
                     </div>
-                    <form id="edit-utilization-form" class="p-6 space-y-4">
-                        <input type="hidden" id="edit-utilization-id">
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Auth No.</label>
-                            <input type="text" id="edit-utilization-id-display" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" readonly>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Description of the Item</label>
-                            <input type="text" id="edit-utilization-description" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter description">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">NSGL Code</label>
-                            <input type="text" id="edit-utilization-nsgl" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="NSGL-XXX">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Brand</label>
-                            <input type="text" id="edit-utilization-brand" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter brand">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Model</label>
-                            <input type="text" id="edit-utilization-model" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter model">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Specified Quantity</label>
-                            <input type="number" id="edit-utilization-specified" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter quantity">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Total Used Quantity</label>
-                            <input type="number" id="edit-utilization-quantity" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter quantity">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Percentage</label>
-                            <input type="number" id="edit-utilization-percentage" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g., 80">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Date Recorded</label>
-                            <input type="date" id="edit-utilization-date" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Status</label>
-                            <select id="edit-utilization-status" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                                <option value="">Select Status</option>
-                                <option value="Underutilized">Underutilized</option>
-                                <option value="Within the limit">Within the limit</option>
-                                <option value="Warning">Warning</option>
-                                <option value="Overutilized">Overutilized</option>
-                            </select>
-                        </div>
-                        <div class="flex justify-end space-x-4 pt-4">
-                            <button type="button" id="cancel-edit-utilization-btn" class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2">Cancel</button>
-                            <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg">Update Utilization</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Delete Confirmation Modal -->
-        <div id="delete-utilization-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50">
-            <div class="flex items-center justify-center min-h-screen p-4">
-                <div class="bg-white border border-neutral2 rounded-lg w-full max-w-md">
-                    <div class="p-6">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-12 h-12 bg-danger/10 rounded-full flex items-center justify-center">
-                                <svg class="w-6 h-6 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold">Delete Utilization Record?</h3>
-                        </div>
-                        <p class="text-sm mb-6">Are you sure you want to delete this utilization record? This action cannot be undone.</p>
-                        <p class="text-sm mb-6">Auth No.: <span id="delete-utilization-id"></span></p>
-                        <div class="flex justify-end space-x-4">
-                            <button id="cancel-delete-utilization-btn" class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2">Cancel</button>
-                            <button id="confirm-delete-utilization-btn" class="px-4 py-2 bg-danger hover:bg-danger/90 text-white rounded-lg">Delete</button>
-                        </div>
+                  </td>
+                </tr>
+                <tr class="border-b border-neutral2 hover:bg-neutral2/50">
+                  <td class="p-4 font-mono">EXP-GLB-2025-0200</td>
+                  <td class="p-4">Raw Material Processor</td>
+                  <td class="p-4">NSGL-003</td>
+                  <td class="p-4">Industrio</td>
+                  <td class="p-4">RMP-200</td>
+                  <td class="p-4">600</td>
+                  <td class="p-4">500</td>
+                  <td class="p-4">83</td>
+                  <td class="p-4">2024-09-03</td>
+                  <td class="p-4">
+                    <span class="status-within-limit">Within the limit</span>
+                  </td>
+                  <td class="p-4">
+                    <div class="flex space-x-2">
+                      <button
+                        class="view-btn text-primary hover:text-primary/80 p-1"
+                        data-utilization="EXP-GLB-2025-0200"
+                        title="View"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          ></path>
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="edit-btn text-secondary hover:text-secondary/80 p-1"
+                        data-utilization="EXP-GLB-2025-0200"
+                        title="Edit"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="delete-btn text-danger hover:text-danger/80 p-1"
+                        data-utilization="EXP-GLB-2025-0200"
+                        title="Delete"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          ></path>
+                        </svg>
+                      </button>
                     </div>
-                </div>
-            </div>
+                  </td>
+                </tr>
+                <tr class="border-b border-neutral2 hover:bg-neutral2/50">
+                  <td class="p-4 font-mono">EXP-GEN-2022-0041</td>
+                  <td class="p-4">Energy Storage Unit</td>
+                  <td class="p-4">NSGL-004</td>
+                  <td class="p-4">EnerStore</td>
+                  <td class="p-4">ESU-4000</td>
+                  <td class="p-4">4000</td>
+                  <td class="p-4">4500</td>
+                  <td class="p-4">112</td>
+                  <td class="p-4">2024-09-04</td>
+                  <td class="p-4">
+                    <span class="status-overutilized">Overutilized</span>
+                  </td>
+                  <td class="p-4">
+                    <div class="flex space-x-2">
+                      <button
+                        class="view-btn text-primary hover:text-primary/80 p-1"
+                        data-utilization="EXP-GEN-2022-0041"
+                        title="View"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          ></path>
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="edit-btn text-secondary hover:text-secondary/80 p-1"
+                        data-utilization="EXP-GEN-2022-0041"
+                        title="Edit"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="delete-btn text-danger hover:text-danger/80 p-1"
+                        data-utilization="EXP-GEN-2022-0041"
+                        title="Delete"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          ></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="border-b border-neutral2 hover:bg-neutral2/50">
+                  <td class="p-4 font-mono">EXP-IND-2025-0202</td>
+                  <td class="p-4">Water Filtration System</td>
+                  <td class="p-4">NSGL-005</td>
+                  <td class="p-4">PureFlow</td>
+                  <td class="p-4">WF-1000</td>
+                  <td class="p-4">2000</td>
+                  <td class="p-4">1800</td>
+                  <td class="p-4">90</td>
+                  <td class="p-4">2024-09-05</td>
+                  <td class="p-4">
+                    <span class="status-warning">Warning</span>
+                  </td>
+                  <td class="p-4">
+                    <div class="flex space-x-2">
+                      <button
+                        class="view-btn text-primary hover:text-primary/80 p-1"
+                        data-utilization="EXP-IND-2025-0202"
+                        title="View"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          ></path>
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="edit-btn text-secondary hover:text-secondary/80 p-1"
+                        data-utilization="EXP-IND-2025-0202"
+                        title="Edit"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        class="delete-btn text-danger hover:text-danger/80 p-1"
+                        data-utilization="EXP-IND-2025-0202"
+                        title="Delete"
+                      >
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          ></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            id="utilizations-table-pagination"
+            class="flex items-center justify-between p-4 border-t border-neutral2"
+          ></div>
         </div>
+      </div>
+      <div id="utilizations-report-tab" class="tab-content hidden">
+        <div class="bg-white border border-neutral2 rounded-lg p-6">
+          <h3 class="text-xl font-semibold mb-4">Utilization Report</h3>
+          <p class="text-sm text-neutral3 mb-4">
+            Summary of utilization data across all resources.
+          </p>
+          <div class="h-64">
+            <canvas id="utilization-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Utilization Modal -->
+      <div
+        id="add-utilization-modal"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50"
+      >
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div
+            class="bg-white border border-neutral2 rounded-lg w-full max-w-2xl"
+          >
+            <div
+              class="flex items-center justify-between p-6 border-b border-neutral2"
+            >
+              <h3 class="text-xl font-semibold">Add New Utilization Record</h3>
+              <button
+                id="close-add-utilization-modal"
+                class="text-neutral3 hover:text-neutral3/80"
+              >
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <form id="add-utilization-form" class="p-6 space-y-4">
+              <div>
+                <label class="block text-sm font-medium mb-2">Auth No.</label>
+                <input
+                  type="text"
+                  id="utilization-id"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="EXP-XXX-YYYY-XXXX"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Description of the Item</label
+                >
+                <input
+                  type="text"
+                  id="utilization-description"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter description"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">NSGL Code</label>
+                <input
+                  type="text"
+                  id="utilization-nsgl"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="NSGL-XXX"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Brand</label>
+                <input
+                  type="text"
+                  id="utilization-brand"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter brand"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Model</label>
+                <input
+                  type="text"
+                  id="utilization-model"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter model"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Specified Quantity</label
+                >
+                <input
+                  type="number"
+                  id="utilization-specified"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter quantity"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Total Used Quantity</label
+                >
+                <input
+                  type="number"
+                  id="utilization-quantity"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter quantity"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Percentage</label>
+                <input
+                  type="number"
+                  id="utilization-percentage"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="e.g., 80"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Date Recorded</label
+                >
+                <input
+                  type="date"
+                  id="utilization-date"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Status</label>
+                <select
+                  id="utilization-status"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="">Select Status</option>
+                  <option value="Underutilized">Underutilized</option>
+                  <option value="Within the limit">Within the limit</option>
+                  <option value="Warning">Warning</option>
+                  <option value="Overutilized">Overutilized</option>
+                </select>
+              </div>
+              <div class="flex justify-end space-x-4 pt-4">
+                <button
+                  type="button"
+                  id="cancel-add-utilization-btn"
+                  class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg"
+                >
+                  Add Utilization
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Utilization Modal -->
+      <div
+        id="edit-utilization-modal"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50"
+      >
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div
+            class="bg-white border border-neutral2 rounded-lg w-full max-w-2xl"
+          >
+            <div
+              class="flex items-center justify-between p-6 border-b border-neutral2"
+            >
+              <h3 class="text-xl font-semibold">Edit Utilization Record</h3>
+              <button
+                id="close-edit-utilization-modal"
+                class="text-neutral3 hover:text-neutral3/80"
+              >
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <form id="edit-utilization-form" class="p-6 space-y-4">
+              <input type="hidden" id="edit-utilization-id" />
+              <div>
+                <label class="block text-sm font-medium mb-2">Auth No.</label>
+                <input
+                  type="text"
+                  id="edit-utilization-id-display"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  readonly
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Description of the Item</label
+                >
+                <input
+                  type="text"
+                  id="edit-utilization-description"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter description"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">NSGL Code</label>
+                <input
+                  type="text"
+                  id="edit-utilization-nsgl"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="NSGL-XXX"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Brand</label>
+                <input
+                  type="text"
+                  id="edit-utilization-brand"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter brand"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Model</label>
+                <input
+                  type="text"
+                  id="edit-utilization-model"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter model"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Specified Quantity</label
+                >
+                <input
+                  type="number"
+                  id="edit-utilization-specified"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter quantity"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Total Used Quantity</label
+                >
+                <input
+                  type="number"
+                  id="edit-utilization-quantity"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Enter quantity"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Percentage</label>
+                <input
+                  type="number"
+                  id="edit-utilization-percentage"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="e.g., 80"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2"
+                  >Date Recorded</label
+                >
+                <input
+                  type="date"
+                  id="edit-utilization-date"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Status</label>
+                <select
+                  id="edit-utilization-status"
+                  required
+                  class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="">Select Status</option>
+                  <option value="Underutilized">Underutilized</option>
+                  <option value="Within the limit">Within the limit</option>
+                  <option value="Warning">Warning</option>
+                  <option value="Overutilized">Overutilized</option>
+                </select>
+              </div>
+              <div class="flex justify-end space-x-4 pt-4">
+                <button
+                  type="button"
+                  id="cancel-edit-utilization-btn"
+                  class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg"
+                >
+                  Update Utilization
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete Confirmation Modal -->
+      <div
+        id="delete-utilization-modal"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50"
+      >
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div
+            class="bg-white border border-neutral2 rounded-lg w-full max-w-md"
+          >
+            <div class="p-6">
+              <div class="flex items-center space-x-3 mb-4">
+                <div
+                  class="w-12 h-12 bg-danger/10 rounded-full flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-danger"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    ></path>
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold">
+                  Delete Utilization Record?
+                </h3>
+              </div>
+              <p class="text-sm mb-6">
+                Are you sure you want to delete this utilization record? This
+                action cannot be undone.
+              </p>
+              <p class="text-sm mb-6">
+                Auth No.: <span id="delete-utilization-id"></span>
+              </p>
+              <div class="flex justify-end space-x-4">
+                <button
+                  id="cancel-delete-utilization-btn"
+                  class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2"
+                >
+                  Cancel
+                </button>
+                <button
+                  id="confirm-delete-utilization-btn"
+                  class="px-4 py-2 bg-danger hover:bg-danger/90 text-white rounded-lg"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-neutral2 p-4 text-center text-sm max-w-7xl mx-auto">
-        &copy; 2025 INSIGHT - Investigation & Compliance System
+    <footer
+      class="bg-white border-t border-neutral2 p-4 text-center text-sm max-w-7xl mx-auto"
+    >
+      &copy; 2025 INSIGHT - Investigation & Compliance System
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const utilizationsData = [
-            { id: "EXP-IND-2025-0201", description: "Industrial Water Pump", nsgl: "NSGL-001", brand: "Aquatech", model: "WP-5000", specified: 1500, quantity: 1200, percentage: 80, date: "2024-09-01", status: getStatus(80) },
-            { id: "EXP-IND-2025-0199", description: "Energy Generator Unit", nsgl: "NSGL-002", brand: "PowerPlus", model: "GEN-3000", specified: 4000, quantity: 3800, percentage: 95, date: "2024-09-02", status: getStatus(95) },
-            { id: "EXP-GLB-2025-0200", description: "Raw Material Processor", nsgl: "NSGL-003", brand: "Industrio", model: "RMP-200", specified: 600, quantity: 500, percentage: 83, date: "2024-09-03", status: getStatus(83) },
-            { id: "EXP-GEN-2022-0041", description: "Energy Storage Unit", nsgl: "NSGL-004", brand: "EnerStore", model: "ESU-4000", specified: 4000, quantity: 4500, percentage: 112, date: "2024-09-04", status: getStatus(112) },
-            { id: "EXP-IND-2025-0202", description: "Water Filtration System", nsgl: "NSGL-005", brand: "PureFlow", model: "WF-1000", specified: 2000, quantity: 1800, percentage: 90, date: "2024-09-05", status: getStatus(90) }
-        ];
+      const utilizationsData = [
+        {
+          id: "EXP-IND-2025-0201",
+          description: "Industrial Water Pump",
+          nsgl: "NSGL-001",
+          brand: "Aquatech",
+          model: "WP-5000",
+          specified: 1500,
+          quantity: 1200,
+          percentage: 80,
+          date: "2024-09-01",
+          status: getStatus(80),
+        },
+        {
+          id: "EXP-IND-2025-0199",
+          description: "Energy Generator Unit",
+          nsgl: "NSGL-002",
+          brand: "PowerPlus",
+          model: "GEN-3000",
+          specified: 4000,
+          quantity: 3800,
+          percentage: 95,
+          date: "2024-09-02",
+          status: getStatus(95),
+        },
+        {
+          id: "EXP-GLB-2025-0200",
+          description: "Raw Material Processor",
+          nsgl: "NSGL-003",
+          brand: "Industrio",
+          model: "RMP-200",
+          specified: 600,
+          quantity: 500,
+          percentage: 83,
+          date: "2024-09-03",
+          status: getStatus(83),
+        },
+        {
+          id: "EXP-GEN-2022-0041",
+          description: "Energy Storage Unit",
+          nsgl: "NSGL-004",
+          brand: "EnerStore",
+          model: "ESU-4000",
+          specified: 4000,
+          quantity: 4500,
+          percentage: 112,
+          date: "2024-09-04",
+          status: getStatus(112),
+        },
+        {
+          id: "EXP-IND-2025-0202",
+          description: "Water Filtration System",
+          nsgl: "NSGL-005",
+          brand: "PureFlow",
+          model: "WF-1000",
+          specified: 2000,
+          quantity: 1800,
+          percentage: 90,
+          date: "2024-09-05",
+          status: getStatus(90),
+        },
+      ];
 
-        function getStatus(percentage) {
-            if (percentage <= 20) return "Underutilized";
-            if (percentage <= 89.99) return "Within the limit";
-            if (percentage <= 100) return "Warning";
-            return "Overutilized";
+      function getStatus(percentage) {
+        if (percentage <= 20) return "Underutilized";
+        if (percentage <= 89.99) return "Within the limit";
+        if (percentage <= 100) return "Warning";
+        return "Overutilized";
+      }
+
+      const userRole = "Admin";
+      function adjustUIForRole(role) {
+        const addBtn = document.getElementById("add-utilization-btn");
+        if (role !== "Admin") {
+          addBtn.classList.add("hidden");
+          document
+            .querySelectorAll(".edit-btn, .delete-btn")
+            .forEach((btn) => btn.classList.add("hidden"));
         }
+        const userName = document.getElementById("user-name");
+        const userInitials = document.getElementById("user-initials");
+        userName.textContent =
+          role === "Admin"
+            ? "Admin User"
+            : role === "Auditor"
+            ? "Auditor User"
+            : "Investigator";
+        userInitials.textContent =
+          role === "Admin" ? "AD" : role === "Auditor" ? "AU" : "IN";
+      }
+      adjustUIForRole(userRole);
 
-        const userRole = 'Admin';
-        function adjustUIForRole(role) {
-            const addBtn = document.getElementById('add-utilization-btn');
-            if (role !== 'Admin') {
-                addBtn.classList.add('hidden');
-                document.querySelectorAll('.edit-btn, .delete-btn').forEach(btn => btn.classList.add('hidden'));
-            }
-            const userName = document.getElementById('user-name');
-            const userInitials = document.getElementById('user-initials');
-            userName.textContent = role === 'Admin' ? 'Admin User' : role === 'Auditor' ? 'Auditor User' : 'Investigator';
-            userInitials.textContent = role === 'Admin' ? 'AD' : role === 'Auditor' ? 'AU' : 'IN';
+      document
+        .getElementById("sidebar-toggle")
+        .addEventListener("click", () => {
+          document
+            .getElementById("sidebar")
+            .classList.toggle("sidebar-collapsed");
+        });
+
+      document
+        .getElementById("user-menu-button")
+        .addEventListener("click", () => {
+          document.getElementById("user-menu").classList.toggle("hidden");
+        });
+
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".tab-btn").forEach((b) => {
+            b.classList.remove("tab-active");
+            b.classList.add("tab-inactive");
+          });
+          btn.classList.remove("tab-inactive");
+          btn.classList.add("tab-active");
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((c) => c.classList.add("hidden"));
+          document.getElementById(btn.dataset.tab).classList.remove("hidden");
+        });
+      });
+
+      const modals = {
+        "add-utilization": {
+          open: "add-utilization-btn",
+          close: ["close-add-utilization-modal", "cancel-add-utilization-btn"],
+          form: "add-utilization-form",
+        },
+        "edit-utilization": {
+          close: [
+            "close-edit-utilization-modal",
+            "cancel-edit-utilization-btn",
+          ],
+          form: "edit-utilization-form",
+        },
+        "delete-utilization": {
+          close: ["cancel-delete-utilization-btn"],
+        },
+      };
+
+      Object.entries(modals).forEach(([modalId, { open, close, form }]) => {
+        const modal = document.getElementById(`${modalId}-modal`);
+        if (open) {
+          document
+            .getElementById(open)
+            .addEventListener("click", () => modal.classList.remove("hidden"));
         }
-        adjustUIForRole(userRole);
-
-        document.getElementById('sidebar-toggle').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('sidebar-collapsed');
+        close?.forEach((id) => {
+          document
+            .getElementById(id)
+            .addEventListener("click", () => modal.classList.add("hidden"));
         });
-
-        document.getElementById('user-menu-button').addEventListener('click', () => {
-            document.getElementById('user-menu').classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(b => {
-                    b.classList.remove('tab-active');
-                    b.classList.add('tab-inactive');
-                });
-                btn.classList.remove('tab-inactive');
-                btn.classList.add('tab-active');
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-                document.getElementById(btn.dataset.tab).classList.remove('hidden');
-            });
-        });
-
-        const modals = {
-            'add-utilization': {
-                open: 'add-utilization-btn',
-                close: ['close-add-utilization-modal', 'cancel-add-utilization-btn'],
-                form: 'add-utilization-form'
-            },
-            'edit-utilization': {
-                close: ['close-edit-utilization-modal', 'cancel-edit-utilization-btn'],
-                form: 'edit-utilization-form'
-            },
-            'delete-utilization': {
-                close: ['cancel-delete-utilization-btn']
+        if (form) {
+          document.getElementById(form).addEventListener("submit", (e) => {
+            e.preventDefault();
+            const id = document.getElementById(
+              `${
+                modalId === "add-utilization"
+                  ? "utilization-id"
+                  : "edit-utilization-id"
+              }`
+            ).value;
+            const description = document.getElementById(
+              `${
+                modalId === "add-utilization"
+                  ? "utilization-description"
+                  : "edit-utilization-description"
+              }`
+            ).value;
+            const nsgl = document.getElementById(
+              `${
+                modalId === "add-utilization"
+                  ? "utilization-nsgl"
+                  : "edit-utilization-nsgl"
+              }`
+            ).value;
+            const brand = document.getElementById(
+              `${
+                modalId === "add-utilization"
+                  ? "utilization-brand"
+                  : "edit-utilization-brand"
+              }`
+            ).value;
+            const model = document.getElementById(
+              `${
+                modalId === "add-utilization"
+                  ? "utilization-model"
+                  : "edit-utilization-model"
+              }`
+            ).value;
+            const specified = parseInt(
+              document.getElementById(
+                `${
+                  modalId === "add-utilization"
+                    ? "utilization-specified"
+                    : "edit-utilization-specified"
+                }`
+              ).value
+            );
+            const quantity = parseInt(
+              document.getElementById(
+                `${
+                  modalId === "add-utilization"
+                    ? "utilization-quantity"
+                    : "edit-utilization-quantity"
+                }`
+              ).value
+            );
+            const percentage = Math.round((quantity / specified) * 100);
+            const date = document.getElementById(
+              `${
+                modalId === "add-utilization"
+                  ? "utilization-date"
+                  : "edit-utilization-date"
+              }`
+            ).value;
+            const status = getStatus(percentage);
+            if (modalId === "add-utilization") {
+              utilizationsData.push({
+                id,
+                description,
+                nsgl,
+                brand,
+                model,
+                specified,
+                quantity,
+                percentage,
+                date,
+                status,
+              });
+            } else {
+              const index = utilizationsData.findIndex((u) => u.id === id);
+              utilizationsData[index] = {
+                id,
+                description,
+                nsgl,
+                brand,
+                model,
+                specified,
+                quantity,
+                percentage,
+                date,
+                status,
+              };
             }
-        };
-
-        Object.entries(modals).forEach(([modalId, { open, close, form }]) => {
-            const modal = document.getElementById(`${modalId}-modal`);
-            if (open) {
-                document.getElementById(open).addEventListener('click', () => modal.classList.remove('hidden'));
-            }
-            close?.forEach(id => {
-                document.getElementById(id).addEventListener('click', () => modal.classList.add('hidden'));
-            });
-            if (form) {
-                document.getElementById(form).addEventListener('submit', e => {
-                    e.preventDefault();
-                    const id = document.getElementById(`${modalId === 'add-utilization' ? 'utilization-id' : 'edit-utilization-id'}`).value;
-                    const description = document.getElementById(`${modalId === 'add-utilization' ? 'utilization-description' : 'edit-utilization-description'}`).value;
-                    const nsgl = document.getElementById(`${modalId === 'add-utilization' ? 'utilization-nsgl' : 'edit-utilization-nsgl'}`).value;
-                    const brand = document.getElementById(`${modalId === 'add-utilization' ? 'utilization-brand' : 'edit-utilization-brand'}`).value;
-                    const model = document.getElementById(`${modalId === 'add-utilization' ? 'utilization-model' : 'edit-utilization-model'}`).value;
-                    const specified = parseInt(document.getElementById(`${modalId === 'add-utilization' ? 'utilization-specified' : 'edit-utilization-specified'}`).value);
-                    const quantity = parseInt(document.getElementById(`${modalId === 'add-utilization' ? 'utilization-quantity' : 'edit-utilization-quantity'}`).value);
-                    const percentage = Math.round((quantity / specified) * 100);
-                    const date = document.getElementById(`${modalId === 'add-utilization' ? 'utilization-date' : 'edit-utilization-date'}`).value;
-                    const status = getStatus(percentage);
-                    if (modalId === 'add-utilization') {
-                        utilizationsData.push({ id, description, nsgl, brand, model, specified, quantity, percentage, date, status });
-                    } else {
-                        const index = utilizationsData.findIndex(u => u.id === id);
-                        utilizationsData[index] = { id, description, nsgl, brand, model, specified, quantity, percentage, date, status };
-                    }
-                    filterUtilizations();
-                    modal.classList.add('hidden');
-                });
-            }
-        });
-
-        document.getElementById('utilizations-table-body').addEventListener('click', e => {
-            const btn = e.target.closest('button');
-            if (!btn) return;
-            const utilizationId = btn.dataset.utilization;
-            if (btn.classList.contains('view-btn')) {
-                console.log(`View utilization ${utilizationId}`);
-            } else if (btn.classList.contains('edit-btn')) {
-                const row = btn.closest('tr');
-                document.getElementById('edit-utilization-id').value = utilizationId;
-                document.getElementById('edit-utilization-id-display').value = utilizationId;
-                document.getElementById('edit-utilization-description').value = row.cells[1].textContent;
-                document.getElementById('edit-utilization-nsgl').value = row.cells[2].textContent;
-                document.getElementById('edit-utilization-brand').value = row.cells[3].textContent;
-                document.getElementById('edit-utilization-model').value = row.cells[4].textContent;
-                document.getElementById('edit-utilization-specified').value = row.cells[5].textContent;
-                document.getElementById('edit-utilization-quantity').value = row.cells[6].textContent;
-                document.getElementById('edit-utilization-percentage').value = row.cells[7].textContent;
-                document.getElementById('edit-utilization-date').value = row.cells[8].textContent;
-                document.getElementById('edit-utilization-status').value = row.cells[9].querySelector('span').textContent;
-                document.getElementById('edit-utilization-modal').classList.remove('hidden');
-            } else if (btn.classList.contains('delete-btn')) {
-                document.getElementById('delete-utilization-id').textContent = utilizationId;
-                document.getElementById('delete-utilization-modal').classList.remove('hidden');
-            }
-        });
-
-        document.getElementById('confirm-delete-utilization-btn').addEventListener('click', () => {
-            const utilizationId = document.getElementById('delete-utilization-id').textContent;
-            const index = utilizationsData.findIndex(u => u.id === utilizationId);
-            if (index !== -1) utilizationsData.splice(index, 1);
             filterUtilizations();
-            document.getElementById('delete-utilization-modal').classList.add('hidden');
+            modal.classList.add("hidden");
+          });
+        }
+      });
+
+      document
+        .getElementById("utilizations-table-body")
+        .addEventListener("click", (e) => {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+          const utilizationId = btn.dataset.utilization;
+          if (btn.classList.contains("view-btn")) {
+            console.log(`View utilization ${utilizationId}`);
+          } else if (btn.classList.contains("edit-btn")) {
+            const row = btn.closest("tr");
+            document.getElementById("edit-utilization-id").value =
+              utilizationId;
+            document.getElementById("edit-utilization-id-display").value =
+              utilizationId;
+            document.getElementById("edit-utilization-description").value =
+              row.cells[1].textContent;
+            document.getElementById("edit-utilization-nsgl").value =
+              row.cells[2].textContent;
+            document.getElementById("edit-utilization-brand").value =
+              row.cells[3].textContent;
+            document.getElementById("edit-utilization-model").value =
+              row.cells[4].textContent;
+            document.getElementById("edit-utilization-specified").value =
+              row.cells[5].textContent;
+            document.getElementById("edit-utilization-quantity").value =
+              row.cells[6].textContent;
+            document.getElementById("edit-utilization-percentage").value =
+              row.cells[7].textContent;
+            document.getElementById("edit-utilization-date").value =
+              row.cells[8].textContent;
+            document.getElementById("edit-utilization-status").value =
+              row.cells[9].querySelector("span").textContent;
+            document
+              .getElementById("edit-utilization-modal")
+              .classList.remove("hidden");
+          } else if (btn.classList.contains("delete-btn")) {
+            document.getElementById("delete-utilization-id").textContent =
+              utilizationId;
+            document
+              .getElementById("delete-utilization-modal")
+              .classList.remove("hidden");
+          }
         });
 
-        function sortTable(tableId, columnIndex, type = 'string') {
-            const table = document.getElementById(tableId);
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            const isAscending = table.dataset.sortDirection !== 'asc';
-            table.dataset.sortDirection = isAscending ? 'asc' : 'desc';
+      document
+        .getElementById("confirm-delete-utilization-btn")
+        .addEventListener("click", () => {
+          const utilizationId = document.getElementById(
+            "delete-utilization-id"
+          ).textContent;
+          const index = utilizationsData.findIndex(
+            (u) => u.id === utilizationId
+          );
+          if (index !== -1) utilizationsData.splice(index, 1);
+          filterUtilizations();
+          document
+            .getElementById("delete-utilization-modal")
+            .classList.add("hidden");
+        });
 
-            rows.sort((a, b) => {
-                let aValue = a.cells[columnIndex].textContent.trim();
-                let bValue = b.cells[columnIndex].textContent.trim();
-                if (type === 'date') {
-                    aValue = new Date(aValue);
-                    bValue = new Date(bValue);
-                } else if (type === 'number') {
-                    aValue = parseFloat(aValue) || 0;
-                    bValue = parseFloat(bValue) || 0;
-                }
-                return isAscending
-                    ? aValue < bValue ? -1 : aValue > bValue ? 1 : 0
-                    : aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
-            });
+      function sortTable(tableId, columnIndex, type = "string") {
+        const table = document.getElementById(tableId);
+        const tbody = table.querySelector("tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        const isAscending = table.dataset.sortDirection !== "asc";
+        table.dataset.sortDirection = isAscending ? "asc" : "desc";
 
-            tbody.innerHTML = '';
-            rows.forEach(row => tbody.appendChild(row));
-        }
+        rows.sort((a, b) => {
+          let aValue = a.cells[columnIndex].textContent.trim();
+          let bValue = b.cells[columnIndex].textContent.trim();
+          if (type === "date") {
+            aValue = new Date(aValue);
+            bValue = new Date(bValue);
+          } else if (type === "number") {
+            aValue = parseFloat(aValue) || 0;
+            bValue = parseFloat(bValue) || 0;
+          }
+          return isAscending
+            ? aValue < bValue
+              ? -1
+              : aValue > bValue
+              ? 1
+              : 0
+            : aValue < bValue
+            ? 1
+            : aValue > bValue
+            ? -1
+            : 0;
+        });
 
-        function setupPagination(tableId, rowsPerPage = 5) {
-            const table = document.getElementById(tableId);
-            const tbody = table.querySelector('tbody');
-            const pagination = document.getElementById(`${tableId}-pagination`);
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            let currentPage = 1;
+        tbody.innerHTML = "";
+        rows.forEach((row) => tbody.appendChild(row));
+      }
 
-            function displayRows() {
-                const start = (currentPage - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-                rows.forEach((row, index) => {
-                    row.style.display = index >= start && index < end ? '' : 'none';
-                });
+      function setupPagination(tableId, rowsPerPage = 5) {
+        const table = document.getElementById(tableId);
+        const tbody = table.querySelector("tbody");
+        const pagination = document.getElementById(`${tableId}-pagination`);
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        let currentPage = 1;
 
-                pagination.innerHTML = '';
-                const totalPages = Math.ceil(rows.length / rowsPerPage);
-                const prevBtn = document.createElement('button');
-                prevBtn.textContent = 'Previous';
-                prevBtn.className = `px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`;
-                prevBtn.disabled = currentPage === 1;
-                prevBtn.addEventListener('click', () => {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        displayRows();
-                    }
-                });
+        function displayRows() {
+          const start = (currentPage - 1) * rowsPerPage;
+          const end = start + rowsPerPage;
+          rows.forEach((row, index) => {
+            row.style.display = index >= start && index < end ? "" : "none";
+          });
 
-                const nextBtn = document.createElement('button');
-                nextBtn.textContent = 'Next';
-                nextBtn.className = `px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`;
-                nextBtn.disabled = currentPage === totalPages;
-                nextBtn.addEventListener('click', () => {
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        displayRows();
-                    }
-                });
-
-                const pageInfo = document.createElement('span');
-                pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-                pageInfo.className = 'text-neutral3';
-
-                pagination.appendChild(prevBtn);
-                pagination.appendChild(pageInfo);
-                pagination.appendChild(nextBtn);
+          pagination.innerHTML = "";
+          const totalPages = Math.ceil(rows.length / rowsPerPage);
+          const prevBtn = document.createElement("button");
+          prevBtn.textContent = "Previous";
+          prevBtn.className = `px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2 ${
+            currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+          }`;
+          prevBtn.disabled = currentPage === 1;
+          prevBtn.addEventListener("click", () => {
+            if (currentPage > 1) {
+              currentPage--;
+              displayRows();
             }
+          });
 
-            if (rows.length > 0) displayRows();
+          const nextBtn = document.createElement("button");
+          nextBtn.textContent = "Next";
+          nextBtn.className = `px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2 ${
+            currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+          }`;
+          nextBtn.disabled = currentPage === totalPages;
+          nextBtn.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+              currentPage++;
+              displayRows();
+            }
+          });
+
+          const pageInfo = document.createElement("span");
+          pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+          pageInfo.className = "text-neutral3";
+
+          pagination.appendChild(prevBtn);
+          pagination.appendChild(pageInfo);
+          pagination.appendChild(nextBtn);
         }
 
-        function filterUtilizations() {
-            const searchTerm = document.getElementById('search-utilizations').value.toLowerCase();
-            const statusFilter = document.getElementById('status-filter').value;
-            const tbody = document.getElementById('utilizations-table-body');
-            tbody.innerHTML = '';
+        if (rows.length > 0) displayRows();
+      }
 
-            const filteredUtilizations = utilizationsData.filter(u => {
-                const matchesSearch = u.id.toLowerCase().includes(searchTerm) || u.description.toLowerCase().includes(searchTerm);
-                const matchesStatus = statusFilter === 'all' || u.status === statusFilter;
-                return matchesSearch && matchesStatus;
-            });
+      function filterUtilizations() {
+        const searchTerm = document
+          .getElementById("search-utilizations")
+          .value.toLowerCase();
+        const statusFilter = document.getElementById("status-filter").value;
+        const tbody = document.getElementById("utilizations-table-body");
+        tbody.innerHTML = "";
 
-            filteredUtilizations.forEach(u => {
-                const row = document.createElement('tr');
-                row.className = 'border-b border-neutral2 hover:bg-neutral2/50';
-                row.innerHTML = `
+        const filteredUtilizations = utilizationsData.filter((u) => {
+          const matchesSearch =
+            u.id.toLowerCase().includes(searchTerm) ||
+            u.description.toLowerCase().includes(searchTerm);
+          const matchesStatus =
+            statusFilter === "all" || u.status === statusFilter;
+          return matchesSearch && matchesStatus;
+        });
+
+        filteredUtilizations.forEach((u) => {
+          const row = document.createElement("tr");
+          row.className = "border-b border-neutral2 hover:bg-neutral2/50";
+          row.innerHTML = `
                     <td class="p-4 font-mono">${u.id}</td>
                     <td class="p-4">${u.description}</td>
                     <td class="p-4">${u.nsgl}</td>
@@ -783,21 +1776,29 @@
                     <td class="p-4">${u.quantity}</td>
                     <td class="p-4">${u.percentage}</td>
                     <td class="p-4">${u.date}</td>
-                    <td class="p-4"><span class="status-${u.status.toLowerCase().replace(' ', '-')}">${u.status}</span></td>
+                    <td class="p-4"><span class="status-${u.status
+                      .toLowerCase()
+                      .replace(" ", "-")}">${u.status}</span></td>
                     <td class="p-4">
                         <div class="flex space-x-2">
-                            <button class="view-btn text-primary hover:text-primary/80 p-1" data-utilization="${u.id}" title="View">
+                            <button class="view-btn text-primary hover:text-primary/80 p-1" data-utilization="${
+                              u.id
+                            }" title="View">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                 </svg>
                             </button>
-                            <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-utilization="${u.id}" title="Edit">
+                            <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-utilization="${
+                              u.id
+                            }" title="Edit">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
                             </button>
-                            <button class="delete-btn text-danger hover:text-danger/80 p-1" data-utilization="${u.id}" title="Delete">
+                            <button class="delete-btn text-danger hover:text-danger/80 p-1" data-utilization="${
+                              u.id
+                            }" title="Delete">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
@@ -805,41 +1806,48 @@
                         </div>
                     </td>
                 `;
-                tbody.appendChild(row);
-            });
-
-            setupPagination('utilizations-table');
-        }
-
-        document.getElementById('search-utilizations').addEventListener('input', filterUtilizations);
-        document.getElementById('status-filter').addEventListener('change', filterUtilizations);
-        filterUtilizations();
-
-        const ctx = document.getElementById('utilization-chart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: utilizationsData.map(u => u.id),
-                datasets: [{
-                    label: 'Total Used Quantity',
-                    data: utilizationsData.map(u => u.quantity),
-                    backgroundColor: '#475569',
-                    borderColor: '#475569',
-                    borderWidth: 1
-                }, {
-                    label: 'Specified Quantity',
-                    data: utilizationsData.map(u => u.specified),
-                    backgroundColor: '#F59E0B',
-                    borderColor: '#F59E0B',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: { beginAtZero: true }
-                }
-            }
+          tbody.appendChild(row);
         });
+
+        setupPagination("utilizations-table");
+      }
+
+      document
+        .getElementById("search-utilizations")
+        .addEventListener("input", filterUtilizations);
+      document
+        .getElementById("status-filter")
+        .addEventListener("change", filterUtilizations);
+      filterUtilizations();
+
+      const ctx = document.getElementById("utilization-chart").getContext("2d");
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: utilizationsData.map((u) => u.id),
+          datasets: [
+            {
+              label: "Total Used Quantity",
+              data: utilizationsData.map((u) => u.quantity),
+              backgroundColor: "#475569",
+              borderColor: "#475569",
+              borderWidth: 1,
+            },
+            {
+              label: "Specified Quantity",
+              data: utilizationsData.map((u) => u.specified),
+              backgroundColor: "#F59E0B",
+              borderColor: "#F59E0B",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      });
     </script>
-</body>
+  </body>
 </html>
