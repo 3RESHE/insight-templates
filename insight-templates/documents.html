@@ -1,43 +1,4 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -63,15 +24,34 @@
                     }
                 }
             }
-        }
+        };
     </script>
     <style>
-        .file-type-pdf { background-color: #DC2626; color: white; padding: 0.25rem 0.75rem; border-radius: 0.375rem; }
-        .file-type-docx { background-color: #2563EB; color: white; padding: 0.25rem 0.75rem; border-radius: 0.375rem; }
-        .file-type-xlsx { background-color: #059669; color: white; padding: 0.25rem 0.75rem; border-radius: 0.375rem; }
-        .sidebar-collapsed { transform: translateX(-100%); }
+        .file-type-pdf {
+            background-color: #DC2626;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+        }
+        .file-type-docx {
+            background-color: #2563EB;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+        }
+        .file-type-xlsx {
+            background-color: #059669;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+        }
+        .sidebar-collapsed {
+            transform: translateX(-100%);
+        }
         @media (min-width: 768px) {
-            .sidebar-collapsed { transform: translateX(0); }
+            .sidebar-collapsed {
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
@@ -125,45 +105,45 @@
     <aside id="sidebar" class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-neutral2 transform transition-transform duration-300 z-40">
         <div class="p-4">
             <nav class="space-y-1">
-                <a href="index.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="index.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
                     </svg>
                     <span>Dashboard</span>
                 </a>
-                <a href="companies.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="companies.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                     </svg>
                     <span>Companies</span>
                 </a>
-                <a href="licenses.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="licenses.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                     <span>Licenses</span>
                 </a>
-                <a href="compliance.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="compliance.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                     </svg>
                     <span>Compliance Reports</span>
                 </a>
-                <a href="utilizations.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="utilizations.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                     </svg>
                     <span>Utilizations</span>
                 </a>
-                <a href="alerts.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="alerts.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <span>Alerts</span>
                 </a>
-                <a href="investigations.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="investigations.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -175,13 +155,13 @@
                     </svg>
                     <span>Documents</span>
                 </a>
-                <a href="reports.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="reports.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                     <span>Reports</span>
                 </a>
-                <a href="users.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
+                <a href="users.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                     </svg>
@@ -193,7 +173,6 @@
 
     <!-- Main Content -->
     <main id="main-content" class="ml-0 md:ml-64 mt-16 transition-all duration-300 p-6 max-w-7xl mx-auto">
-        <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <div>
                 <h2 class="text-2xl font-semibold text-neutral3">Documents</h2>
@@ -343,7 +322,7 @@
                             <td class="p-4">
                                 <div class="flex space-x-2">
                                     <button class="view-btn text-primary hover:text-primary/80 p-1" data-document="DOC-2024-004" title="View">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 26">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                         </svg>
@@ -491,10 +470,42 @@
         &copy; 2025 INSIGHT - Investigation & Compliance System
     </footer>
 
-    <!-- JavaScript -->
     <script>
+        // XLSX File Processing
+        let gk_isXlsx = false;
+        const gk_xlsxFileLookup = {};
+        const gk_fileData = {};
+
+        function filledCell(cell) {
+            return cell !== '' && cell != null;
+        }
+
+        function loadFileData(filename) {
+            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+                try {
+                    const workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                    const filteredData = jsonData.filter(row => row.some(filledCell));
+
+                    let headerRowIndex = filteredData.findIndex((row, index) =>
+                        row.filter(filledCell).length >= (filteredData[index + 1]?.filter(filledCell).length || 0)
+                    );
+                    headerRowIndex = (headerRowIndex === -1 || headerRowIndex > 25) ? 0 : headerRowIndex;
+
+                    const csv = XLSX.utils.sheet_to_csv(XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)));
+                    return csv;
+                } catch (e) {
+                    console.error('Error processing XLSX file:', e);
+                    return '';
+                }
+            }
+            return gk_fileData[filename] || '';
+        }
+
         // Role-based UI adjustments
-        const userRole = 'Admin'; // Simulated role (Admin, Auditor, InvestigationCompliance)
+        const userRole = 'Admin';
         const userName = document.getElementById('user-name');
         const userInitials = document.getElementById('user-initials');
         const uploadDocumentBtn = document.getElementById('upload-document-btn');
@@ -504,16 +515,14 @@
                 uploadDocumentBtn.classList.add('hidden');
                 document.querySelectorAll('.delete-btn').forEach(btn => btn.classList.add('hidden'));
             }
-            if (role === 'Admin') {
-                userName.textContent = 'Admin User';
-                userInitials.textContent = 'AD';
-            } else if (role === 'Auditor') {
-                userName.textContent = 'Auditor User';
-                userInitials.textContent = 'AU';
-            } else if (role === 'InvestigationCompliance') {
-                userName.textContent = 'Investigator';
-                userInitials.textContent = 'IN';
-            }
+            const roleConfig = {
+                Admin: { name: 'Admin User', initials: 'AD' },
+                Auditor: { name: 'Auditor User', initials: 'AU' },
+                InvestigationCompliance: { name: 'Investigator', initials: 'IN' }
+            };
+            const config = roleConfig[role] || roleConfig.Admin;
+            userName.textContent = config.name;
+            userInitials.textContent = config.initials;
         }
         adjustUIForRole(userRole);
 
@@ -645,16 +654,13 @@
         function setupModal(modalId, openBtnId, closeBtnId, cancelBtnId) {
             const modal = document.getElementById(modalId);
             if (openBtnId) {
-                const openBtn = document.getElementById(openBtnId);
-                openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+                document.getElementById(openBtnId).addEventListener('click', () => modal.classList.remove('hidden'));
             }
             if (closeBtnId) {
-                const closeBtn = document.getElementById(closeBtnId);
-                closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+                document.getElementById(closeBtnId).addEventListener('click', () => modal.classList.add('hidden'));
             }
             if (cancelBtnId) {
-                const cancelBtn = document.getElementById(cancelBtnId);
-                cancelBtn.addEventListener('click', () => modal.classList.add('hidden'));
+                document.getElementById(cancelBtnId).addEventListener('click', () => modal.classList.add('hidden'));
             }
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) modal.classList.add('hidden');
@@ -708,7 +714,7 @@
             });
         });
 
-        // Global Search (placeholder)
+        // Global Search
         document.getElementById('global-search').addEventListener('input', (e) => {
             console.log('Searching:', e.target.value);
         });
