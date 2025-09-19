@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Licenses - INSIGHT</title>
+    <title>Authorizations - INSIGHT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="globals.css">
@@ -54,7 +54,7 @@
                         <span class="text-white font-bold text-sm">I</span>
                     </div>
                     <h1 class="text-xl font-semibold text-neutral3">INSIGHT</h1>
-                    <span class="text-sm text-neutral3 hidden sm:block">Investigation & Compliance</span>
+                    <span class="text-sm text-neutral3 hidden sm:block">Investigation & Compliance System for Governance, Handling, and Tracking</span>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
@@ -106,7 +106,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
-                    <span>Licenses</span>
+                    <span>Authorizations</span>
                 </a>
                 <a href="compliance.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-neutral2 text-neutral3 hover:text-neutral3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,14 +160,14 @@
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <div>
-                <h2 class="text-2xl font-semibold text-neutral3">Licenses</h2>
-                <p class="text-sm text-neutral3">Manage all licenses across companies</p>
+                <h2 class="text-2xl font-semibold text-neutral3">Authorizations</h2>
+                <p class="text-sm text-neutral3">Manage all authorizations across companies</p>
             </div>
             <button id="add-license-btn" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
-                <span>Add License</span>
+                <span>Add Authorization</span>
             </button>
         </div>
 
@@ -175,10 +175,10 @@
         <div class="bg-white border border-neutral2 rounded-lg p-6 mb-8">
             <div class="flex flex-col sm:flex-row gap-4">
                 <div class="flex-1">
-                    <input type="text" id="search-licenses" placeholder="Search by License ID or Company..." class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <input type="text" id="search-licenses" placeholder="Search by Authorization No. or Company..." class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
                 </div>
                 <select id="authorization-filter" class="bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                    <option value="all">All Authorizations</option>
+                    <option value="all">All Authorization Types</option>
                     <option value="Individual Authorization">Individual Authorization</option>
                     <option value="Global Authorization">Global Authorization</option>
                     <option value="General Authorization">General Authorization</option>
@@ -192,43 +192,45 @@
             </div>
         </div>
 
-        <!-- Licenses Table -->
+        <!-- Authorizations Table -->
         <div class="bg-white border border-neutral2 rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full" id="licenses-table">
                     <thead class="bg-neutral2 border-b border-neutral2">
                         <tr>
-                            <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 0)">License ID</th>
+                            <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 0)">Auth No.</th>
                             <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 1)">Company Name</th>
-                            <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 2)">Authorization</th>
-                            <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 3, 'date')">Issue Date</th>
+                            <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 2)">Authorization Type</th>
+                            <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 3, 'date')">Validity Date</th>
                             <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 4, 'date')">Expiry Date</th>
                             <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 5)">Status</th>
+                            <th class="text-left p-4 font-medium cursor-pointer" onclick="sortTable('licenses-table', 6, 'date')">Amendment Date</th>
                             <th class="text-left p-4 font-medium">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="licenses-table-body">
                         <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                            <td class="p-4 text-neutral3 font-mono">LIC-2024-001</td>
+                            <td class="p-4 text-neutral3 font-mono">EXP-IND-2025-0199</td>
                             <td class="p-4 text-neutral3"><a href="company-profile.html?company=TechCorp%20Industries" class="hover:underline">TechCorp Industries</a></td>
                             <td class="p-4 text-neutral3">Individual Authorization</td>
                             <td class="p-4 text-neutral3">2024-01-10</td>
                             <td class="p-4 text-neutral3">2026-01-10</td>
                             <td class="p-4"><span class="status-active">Active</span></td>
+                            <td class="p-4 text-neutral3">2024-06-15</td>
                             <td class="p-4">
                                 <div class="flex space-x-2">
-                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="LIC-2024-001" title="View">
+                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="EXP-IND-2025-0199" title="View">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                         </svg>
                                     </button>
-                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="LIC-2024-001" title="Edit">
+                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="EXP-IND-2025-0199" title="Edit">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                         </svg>
                                     </button>
-                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="LIC-2024-001" title="Delete">
+                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="EXP-IND-2025-0199" title="Delete">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
@@ -237,26 +239,27 @@
                             </td>
                         </tr>
                         <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                            <td class="p-4 text-neutral3 font-mono">LIC-2024-002</td>
+                            <td class="p-4 text-neutral3 font-mono">EXP-GLB-2025-0200</td>
                             <td class="p-4 text-neutral3"><a href="company-profile.html?company=TechCorp%20Industries" class="hover:underline">TechCorp Industries</a></td>
                             <td class="p-4 text-neutral3">Global Authorization</td>
                             <td class="p-4 text-neutral3">2024-02-15</td>
                             <td class="p-4 text-neutral3">2029-02-15</td>
                             <td class="p-4"><span class="status-active">Active</span></td>
+                            <td class="p-4 text-neutral3"></td>
                             <td class="p-4">
                                 <div class="flex space-x-2">
-                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="LIC-2024-002" title="View">
+                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="EXP-GLB-2025-0200" title="View">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                         </svg>
                                     </button>
-                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="LIC-2024-002" title="Edit">
+                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="EXP-GLB-2025-0200" title="Edit">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                         </svg>
                                     </button>
-                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="LIC-2024-002" title="Delete">
+                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="EXP-GLB-2025-0200" title="Delete">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
@@ -265,26 +268,27 @@
                             </td>
                         </tr>
                         <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                            <td class="p-4 text-neutral3 font-mono">LIC-2024-003</td>
+                            <td class="p-4 text-neutral3 font-mono">EXP-GEN-2022-0041</td>
                             <td class="p-4 text-neutral3"><a href="company-profile.html?company=Global%20Mining%20Corp" class="hover:underline">Global Mining Corp</a></td>
                             <td class="p-4 text-neutral3">General Authorization</td>
                             <td class="p-4 text-neutral3">2024-03-20</td>
                             <td class="p-4 text-neutral3">Lifetime</td>
                             <td class="p-4"><span class="status-active">Active</span></td>
+                            <td class="p-4 text-neutral3">2024-08-10</td>
                             <td class="p-4">
                                 <div class="flex space-x-2">
-                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="LIC-2024-003" title="View">
+                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="EXP-GEN-2022-0041" title="View">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                         </svg>
                                     </button>
-                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="LIC-2024-003" title="Edit">
+                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="EXP-GEN-2022-0041" title="Edit">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                         </svg>
                                     </button>
-                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="LIC-2024-003" title="Delete">
+                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="EXP-GEN-2022-0041" title="Delete">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
@@ -293,27 +297,28 @@
                             </td>
                         </tr>
                         <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                            <td class="p-4 text-neutral3 font-mono">LIC-2024-004</td>
+                            <td class="p-4 text-neutral3 font-mono">EXP-IND-2025-0201</td>
                             <td class="p-4 text-neutral3"><a href="company-profile.html?company=MegaCorp%20Ltd" class="hover:underline">MegaCorp Ltd</a></td>
                             <td class="p-4 text-neutral3">Individual Authorization</td>
                             <td class="p-4 text-neutral3">2024-04-01</td>
                             <td class="p-4 text-neutral3">2026-04-01</td>
                             <td class="p-4"><span class="status-active">Active</span></td>
+                            <td class="p-4 text-neutral3"></td>
                             <td class="p-4">
                                 <div class="flex space-x-2">
-                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="LIC-2024-004" title="View">
+                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="EXP-IND-2025-0201" title="View">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                         </svg>
                                     </button>
-                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="LIC-2024-004" title="Edit">
+                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="EXP-IND-2025-0201" title="Edit">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                         </svg>
                                     </button>
-                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="LIC-2024-004" title="Delete">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 21">
+                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="EXP-IND-2025-0201" title="Delete">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
                                     </button>
@@ -321,26 +326,27 @@
                             </td>
                         </tr>
                         <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                            <td class="p-4 text-neutral3 font-mono">LIC-2024-005</td>
+                            <td class="p-4 text-neutral3 font-mono">EXP-GLB-2025-0202</td>
                             <td class="p-4 text-neutral3"><a href="company-profile.html?company=Innovate%20Tech" class="hover:underline">Innovate Tech</a></td>
                             <td class="p-4 text-neutral3">Global Authorization</td>
                             <td class="p-4 text-neutral3">2024-05-15</td>
                             <td class="p-4 text-neutral3">2029-05-15</td>
                             <td class="p-4"><span class="status-active">Active</span></td>
+                            <td class="p-4 text-neutral3">2024-10-01</td>
                             <td class="p-4">
                                 <div class="flex space-x-2">
-                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="LIC-2024-005" title="View">
+                                    <button class="view-btn text-primary hover:text-primary/80 p-1" data-license="EXP-GLB-2025-0202" title="View">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                         </svg>
                                     </button>
-                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="LIC-2024-005" title="Edit">
+                                    <button class="edit-btn text-secondary hover:text-secondary/80 p-1" data-license="EXP-GLB-2025-0202" title="Edit">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                         </svg>
                                     </button>
-                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="LIC-2024-005" title="Delete">
+                                    <button class="delete-btn text-danger hover:text-danger/80 p-1" data-license="EXP-GLB-2025-0202" title="Delete">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
@@ -355,12 +361,12 @@
         </div>
     </main>
 
-    <!-- Add License Modal -->
+    <!-- Add Authorization Modal -->
     <div id="add-license-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-white border border-neutral2 rounded-lg w-full max-w-2xl">
                 <div class="flex items-center justify-between p-6 border-b border-neutral2">
-                    <h3 class="text-xl font-semibold text-neutral3">Add New License</h3>
+                    <h3 class="text-xl font-semibold text-neutral3">Add New Authorization</h3>
                     <button id="close-add-license-modal" class="text-neutral3 hover:text-neutral3/80">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -369,8 +375,8 @@
                 </div>
                 <form id="add-license-form" class="p-6 space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-neutral3 mb-2">License ID</label>
-                        <input type="text" id="license-id" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="LIC-YYYY-XXX">
+                        <label class="block text-sm font-medium text-neutral3 mb-2">Authorization No.</label>
+                        <input type="text" id="license-id" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="EXP-IND-YYYY-XXXX">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-neutral3 mb-2">Company</label>
@@ -384,9 +390,9 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-neutral3 mb-2">Authorization</label>
+                        <label class="block text-sm font-medium text-neutral3 mb-2">Authorization Type</label>
                         <select id="license-authorization" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                            <option value="">Select Authorization</option>
+                            <option value="">Select Authorization Type</option>
                             <option value="Individual Authorization">Individual Authorization</option>
                             <option value="Global Authorization">Global Authorization</option>
                             <option value="General Authorization">General Authorization</option>
@@ -397,12 +403,12 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-neutral3 mb-2">Issue Date</label>
+                            <label class="block text-sm font-medium text-neutral3 mb-2">Validity Date</label>
                             <input type="date" id="license-issue-date" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-neutral3 mb-2">Expiry Date</label>
-                            <input type="date" id="license-expiry-date" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <input type="date" id="license-expiry-date" class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
                         </div>
                     </div>
                     <div>
@@ -414,21 +420,25 @@
                             <option value="Expired">Expired</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-sm font-medium text-neutral3 mb-2">Amendment Date</label>
+                        <input type="date" id="license-amendment-date" class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
                     <div class="flex justify-end space-x-4 pt-4">
                         <button type="button" id="cancel-add-license-btn" class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2">Cancel</button>
-                        <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg">Add License</button>
+                        <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg">Add Authorization</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Edit License Modal -->
+    <!-- Edit Authorization Modal -->
     <div id="edit-license-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-white border border-neutral2 rounded-lg w-full max-w-2xl">
                 <div class="flex items-center justify-between p-6 border-b border-neutral2">
-                    <h3 class="text-xl font-semibold text-neutral3">Edit License</h3>
+                    <h3 class="text-xl font-semibold text-neutral3">Edit Authorization</h3>
                     <button id="close-edit-license-modal" class="text-neutral3 hover:text-neutral3/80">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -438,7 +448,7 @@
                 <form id="edit-license-form" class="p-6 space-y-4">
                     <input type="hidden" id="edit-license-id">
                     <div>
-                        <label class="block text-sm font-medium text-neutral3 mb-2">License ID</label>
+                        <label class="block text-sm font-medium text-neutral3 mb-2">Authorization No.</label>
                         <input type="text" id="edit-license-id-display" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" readonly>
                     </div>
                     <div>
@@ -453,9 +463,9 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-neutral3 mb-2">Authorization</label>
+                        <label class="block text-sm font-medium text-neutral3 mb-2">Authorization Type</label>
                         <select id="edit-license-authorization" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                            <option value="">Select Authorization</option>
+                            <option value="">Select Authorization Type</option>
                             <option value="Individual Authorization">Individual Authorization</option>
                             <option value="Global Authorization">Global Authorization</option>
                             <option value="General Authorization">General Authorization</option>
@@ -466,12 +476,12 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-neutral3 mb-2">Issue Date</label>
+                            <label class="block text-sm font-medium text-neutral3 mb-2">Validity Date</label>
                             <input type="date" id="edit-license-issue-date" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-neutral3 mb-2">Expiry Date</label>
-                            <input type="date" id="edit-license-expiry-date" required class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <input type="date" id="edit-license-expiry-date" class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
                         </div>
                     </div>
                     <div>
@@ -483,9 +493,13 @@
                             <option value="Expired">Expired</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-sm font-medium text-neutral3 mb-2">Amendment Date</label>
+                        <input type="date" id="edit-license-amendment-date" class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
                     <div class="flex justify-end space-x-4 pt-4">
                         <button type="button" id="cancel-edit-license-btn" class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2">Cancel</button>
-                        <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg">Update License</button>
+                        <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg">Update Authorization</button>
                     </div>
                 </form>
             </div>
@@ -503,9 +517,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                             </svg>
                         </div>
-                        <h3 class="text-lg font-semibold text-neutral3">Delete License?</h3>
+                        <h3 class="text-lg font-semibold text-neutral3">Delete Authorization?</h3>
                     </div>
-                    <p class="text-sm text-neutral3 mb-6">Are you sure you want to delete this license? This action cannot be undone.</p>
+                    <p class="text-sm text-neutral3 mb-6">Are you sure you want to delete this authorization? This action cannot be undone.</p>
                     <input type="hidden" id="delete-license-id">
                     <div class="flex justify-end space-x-4">
                         <button id="cancel-delete-license-btn" class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2">Cancel</button>
@@ -518,7 +532,7 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-neutral2 p-4 text-center text-sm text-neutral3 max-w-7xl mx-auto">
-        &copy; 2025 INSIGHT - Investigation & Compliance System
+        &copy; 2025 INSIGHT - Investigation & Compliance System for Governance, Handling, and Tracking System
     </footer>
 
     <!-- JavaScript -->
@@ -594,7 +608,7 @@
             'General Authorization': 'Limited to specific countries and goods, ICP not required but has reporting requirement, lifetime validity until revoked/amended'
         };
 
-        // Add License Authorization Details
+        // Add Authorization Details
         document.getElementById('license-authorization').addEventListener('change', (e) => {
             const detailsDiv = document.getElementById('add-authorization-details');
             const detailsText = document.getElementById('add-authorization-details-text');
@@ -608,7 +622,7 @@
             }
         });
 
-        // Edit License Authorization Details
+        // Edit Authorization Details
         document.getElementById('edit-license-authorization').addEventListener('change', (e) => {
             const detailsDiv = document.getElementById('edit-authorization-details');
             const detailsText = document.getElementById('edit-authorization-details-text');
@@ -634,8 +648,8 @@
                 let aValue = a.cells[columnIndex].textContent.trim();
                 let bValue = b.cells[columnIndex].textContent.trim();
                 if (type === 'date') {
-                    aValue = aValue === 'Lifetime' ? (isAscending ? Infinity : -Infinity) : new Date(aValue);
-                    bValue = bValue === 'Lifetime' ? (isAscending ? Infinity : -Infinity) : new Date(bValue);
+                    aValue = aValue === 'Lifetime' || aValue === '' ? (isAscending ? Infinity : -Infinity) : new Date(aValue);
+                    bValue = bValue === 'Lifetime' || bValue === '' ? (isAscending ? Infinity : -Infinity) : new Date(bValue);
                 } else if (columnIndex === 5) { // Status column
                     aValue = a.cells[columnIndex].querySelector('span').textContent.trim();
                     bValue = b.cells[columnIndex].querySelector('span').textContent.trim();
@@ -668,7 +682,7 @@
             function updatePaginationControls() {
                 const pagination = document.getElementById(`${tableId}-pagination`);
                 pagination.innerHTML = `
-                    <div class="text-sm text-neutral3">Showing ${(currentPage - 1) * pageSize + 1} to ${Math.min(currentPage * pageSize, rows.length)} of ${rows.length} licenses</div>
+                    <div class="text-sm text-neutral3">Showing ${(currentPage - 1) * pageSize + 1} to ${Math.min(currentPage * pageSize, rows.length)} of ${rows.length} authorizations</div>
                     <div class="flex space-x-2">
                         <button class="px-3 py-1 text-sm border border-neutral2 rounded hover:bg-neutral2 ${currentPage === 1 ? 'opacity-50' : ''}" ${currentPage === 1 ? 'disabled' : ''} onclick="showPage${tableId}(${currentPage - 1})">Previous</button>
                         ${Array.from({ length: pageCount }, (_, i) => `
@@ -732,16 +746,16 @@
         setupModal('edit-license-modal', null, 'close-edit-license-modal', 'cancel-edit-license-btn');
         setupModal('delete-license-modal', null, null, 'cancel-delete-license-btn');
 
-        // Add License Form
+        // Add Authorization Form
         document.getElementById('add-license-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('License added successfully!');
+            alert('Authorization added successfully!');
             document.getElementById('add-license-modal').classList.add('hidden');
             document.getElementById('add-license-form').reset();
             document.getElementById('add-authorization-details').classList.add('hidden');
         });
 
-        // Edit License
+        // Edit Authorization
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const licenseId = e.target.closest('button').dataset.license;
@@ -753,6 +767,7 @@
                 document.getElementById('edit-license-issue-date').value = row.cells[3].textContent.split('-').reverse().join('-'); // Convert to YYYY-MM-DD
                 document.getElementById('edit-license-expiry-date').value = row.cells[4].textContent === 'Lifetime' ? '' : row.cells[4].textContent.split('-').reverse().join('-');
                 document.getElementById('edit-license-status').value = row.cells[5].querySelector('span').textContent;
+                document.getElementById('edit-license-amendment-date').value = row.cells[6].textContent ? row.cells[6].textContent.split('-').reverse().join('-') : '';
 
                 // Show authorization details
                 const auth = row.cells[2].textContent;
@@ -771,12 +786,12 @@
 
         document.getElementById('edit-license-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('License updated successfully!');
+            alert('Authorization updated successfully!');
             document.getElementById('edit-license-modal').classList.add('hidden');
             document.getElementById('edit-authorization-details').classList.add('hidden');
         });
 
-        // Delete License
+        // Delete Authorization
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const licenseId = e.target.closest('button').dataset.license;
@@ -787,18 +802,18 @@
 
         document.getElementById('confirm-delete-license-btn').addEventListener('click', () => {
             const licenseId = document.getElementById('delete-license-id').value;
-            alert(`License ${licenseId} deleted successfully!`);
+            alert(`Authorization ${licenseId} deleted successfully!`);
             document.getElementById('delete-license-modal').classList.add('hidden');
             const row = document.querySelector(`[data-license="${licenseId}"]`)?.closest('tr');
             if (row) row.remove();
             paginateTable('licenses-table');
         });
 
-        // View License
+        // View Authorization
         document.querySelectorAll('.view-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const licenseId = e.target.closest('button').dataset.license;
-                alert(`Viewing license: ${licenseId}. In a real app, this would navigate to license-details.html?id=${licenseId}`);
+                alert(`Viewing authorization: ${licenseId}. In a real app, this would navigate to authorization-details.html?id=${licenseId}`);
             });
         });
 

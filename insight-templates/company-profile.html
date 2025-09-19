@@ -164,7 +164,8 @@
             </div>
             <h1 class="text-xl font-semibold">INSIGHT</h1>
             <span class="text-sm hidden sm:block"
-              >Investigation & Compliance</span
+              >Investigation & Compliance System for Governance, Handling, and
+              Tracking</span
             >
           </div>
         </div>
@@ -503,14 +504,13 @@
         </div>
       </div>
 
-      <!-- Tabs -->
       <div class="bg-white border border-neutral2 rounded-lg overflow-hidden">
         <div class="flex border-b border-neutral2">
           <button
             class="tab-btn tab-active px-6 py-3 font-medium rounded-t-lg"
-            data-tab="licenses"
+            data-tab="authorizations"
           >
-            Licenses
+            Authorizations
           </button>
           <button
             class="tab-btn tab-inactive px-6 py-3 font-medium rounded-t-lg"
@@ -537,12 +537,12 @@
             Documents
           </button>
         </div>
-        <!-- Licenses Tab -->
-        <div id="licenses" class="tab-content p-6">
+        <!-- Authorizations Tab -->
+        <div id="authorizations" class="tab-content p-6">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-medium">Licenses</h3>
+            <h3 class="text-lg font-medium">Authorizations</h3>
             <button
-              id="add-license-btn"
+              id="add-authorization-btn"
               class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
             >
               <svg
@@ -558,57 +558,64 @@
                   d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                 ></path>
               </svg>
-              <span>Add License</span>
+              <span>Add Authorization</span>
             </button>
           </div>
           <div class="overflow-x-auto">
-            <table class="w-full" id="licenses-table">
+            <table class="w-full" id="authorizations-table">
               <thead class="bg-neutral2 border-b border-neutral2">
                 <tr>
                   <th
                     class="text-left p-4 font-medium cursor-pointer"
-                    onclick="sortTable('licenses-table', 0)"
+                    onclick="sortTable('authorizations-table', 0)"
                   >
-                    License ID
+                    Auth No.
                   </th>
                   <th
                     class="text-left p-4 font-medium cursor-pointer"
-                    onclick="sortTable('licenses-table', 1)"
+                    onclick="sortTable('authorizations-table', 1)"
                   >
-                    Authorization
+                    Authorization Type
                   </th>
                   <th
                     class="text-left p-4 font-medium cursor-pointer"
-                    onclick="sortTable('licenses-table', 2, 'date')"
+                    onclick="sortTable('authorizations-table', 2, 'date')"
                   >
-                    Issue Date
+                    Validity Date
                   </th>
                   <th
                     class="text-left p-4 font-medium cursor-pointer"
-                    onclick="sortTable('licenses-table', 3, 'date')"
+                    onclick="sortTable('authorizations-table', 3, 'date')"
                   >
                     Expiry Date
                   </th>
                   <th
                     class="text-left p-4 font-medium cursor-pointer"
-                    onclick="sortTable('licenses-table', 4)"
+                    onclick="sortTable('authorizations-table', 4)"
                   >
                     Status
+                  </th>
+                  <th
+                    class="text-left p-4 font-medium cursor-pointer"
+                    onclick="sortTable('authorizations-table', 5, 'date')"
+                  >
+                    Amendment Date
                   </th>
                   <th class="text-left p-4 font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody id="licenses-table-body">
+              <tbody id="authorizations-table-body">
                 <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                  <td class="p-4 font-mono">LIC-2024-001</td>
+                  <td class="p-4 font-mono">EXP-IND-2024-001</td>
                   <td class="p-4">Individual Authorization</td>
                   <td class="p-4">2024-01-10</td>
                   <td class="p-4">2026-01-10</td>
                   <td class="p-4"><span class="status-active">Active</span></td>
+                  <td class="p-4">2024-06-15</td>
                   <td class="p-4">
                     <button
                       class="view-btn text-primary hover:text-primary/80 p-1"
-                      data-license="LIC-2024-001"
+                      data-authorization="EXP-IND-2024-001"
                       title="View"
                     >
                       <svg
@@ -634,15 +641,16 @@
                   </td>
                 </tr>
                 <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                  <td class="p-4 font-mono">LIC-2024-002</td>
+                  <td class="p-4 font-mono">EXP-GLB-2024-002</td>
                   <td class="p-4">Global Authorization</td>
                   <td class="p-4">2024-02-15</td>
                   <td class="p-4">2029-02-15</td>
                   <td class="p-4"><span class="status-active">Active</span></td>
+                  <td class="p-4"></td>
                   <td class="p-4">
                     <button
                       class="view-btn text-primary hover:text-primary/80 p-1"
-                      data-license="LIC-2024-002"
+                      data-authorization="EXP-GLB-2024-002"
                       title="View"
                     >
                       <svg
@@ -671,7 +679,7 @@
             </table>
           </div>
           <div
-            id="licenses-table-pagination"
+            id="authorizations-table-pagination"
             class="flex items-center justify-between p-4 border-t border-neutral2"
           ></div>
         </div>
@@ -774,7 +782,7 @@
                     class="text-left p-4 font-medium cursor-pointer"
                     onclick="sortTable('utilizations-table', 1)"
                   >
-                    License ID
+                    Auth No.
                   </th>
                   <th
                     class="text-left p-4 font-medium cursor-pointer"
@@ -812,7 +820,7 @@
               <tbody id="utilizations-table-body">
                 <tr class="border-b border-neutral2 hover:bg-neutral2/50">
                   <td class="p-4 font-mono">UTL-2024-001</td>
-                  <td class="p-4 font-mono">LIC-2024-001</td>
+                  <td class="p-4 font-mono">EXP-IND-2024-001</td>
                   <td class="p-4">Water</td>
                   <td class="p-4">2000 m³</td>
                   <td class="p-4">1500 m³</td>
@@ -850,7 +858,7 @@
                 </tr>
                 <tr class="border-b border-neutral2 hover:bg-neutral2/50">
                   <td class="p-4 font-mono">UTL-2024-002</td>
-                  <td class="p-4 font-mono">LIC-2024-001</td>
+                  <td class="p-4 font-mono">EXP-IND-2024-001</td>
                   <td class="p-4">Energy</td>
                   <td class="p-4">5000 kWh</td>
                   <td class="p-4">4800 kWh</td>
@@ -890,7 +898,7 @@
                 </tr>
                 <tr class="border-b border-neutral2 hover:bg-neutral2/50">
                   <td class="p-4 font-mono">UTL-2024-003</td>
-                  <td class="p-4 font-mono">LIC-2024-002</td>
+                  <td class="p-4 font-mono">EXP-GLB-2024-002</td>
                   <td class="p-4">Materials</td>
                   <td class="p-4">1000 kg</td>
                   <td class="p-4">1200 kg</td>
@@ -1009,8 +1017,10 @@
                   </td>
                 </tr>
                 <tr class="border-b border-neutral2 hover:bg-neutral2/50">
-                  <td class="p-4">License Expiring</td>
-                  <td class="p-4">License LIC-2024-001 expires in 90 days</td>
+                  <td class="p-4">Authorization Expiring</td>
+                  <td class="p-4">
+                    Authorization EXP-IND-2024-001 expires in 90 days
+                  </td>
                   <td class="p-4">
                     <span class="status-warning">Medium</span>
                   </td>
@@ -1219,8 +1229,8 @@
                 </tr>
                 <tr class="border-b border-neutral2 hover:bg-neutral2/50">
                   <td class="p-4 font-mono">DOC-2024-002</td>
-                  <td class="p-4">License Agreement</td>
-                  <td class="p-4 font-mono">LIC-2024-001</td>
+                  <td class="p-4">Authorization Agreement</td>
+                  <td class="p-4 font-mono">EXP-IND-2024-001</td>
                   <td class="p-4"><span class="file-type-pdf">PDF</span></td>
                   <td class="p-4">Admin User</td>
                   <td class="p-4">2024-01-15</td>
@@ -1519,9 +1529,9 @@
       </div>
     </div>
 
-    <!-- Add License Modal -->
+    <!-- Add Authorization Modal -->
     <div
-      id="add-license-modal"
+      id="add-authorization-modal"
       class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50"
     >
       <div class="flex items-center justify-center min-h-screen p-4">
@@ -1531,9 +1541,9 @@
           <div
             class="flex items-center justify-between p-6 border-b border-neutral2"
           >
-            <h3 class="text-xl font-semibold">Add New License</h3>
+            <h3 class="text-xl font-semibold">Add New Authorization</h3>
             <button
-              id="close-add-license-modal"
+              id="close-add-authorization-modal"
               class="text-neutral3 hover:text-neutral3/80"
             >
               <svg
@@ -1551,27 +1561,29 @@
               </svg>
             </button>
           </div>
-          <form id="add-license-form" class="p-6 space-y-4">
+          <form id="add-authorization-form" class="p-6 space-y-4">
             <div>
-              <label class="block text-sm font-medium mb-2">License ID</label>
+              <label class="block text-sm font-medium mb-2"
+                >Authorization No.</label
+              >
               <input
                 type="text"
-                id="license-id"
+                id="authorization-id"
                 required
                 class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="LIC-YYYY-XXX"
+                placeholder="EXP-IND-YYYY-XXXX"
               />
             </div>
             <div>
               <label class="block text-sm font-medium mb-2"
-                >Authorization</label
+                >Authorization Type</label
               >
               <select
-                id="license-authorization"
+                id="authorization-type"
                 required
                 class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               >
-                <option value="">Select Authorization</option>
+                <option value="">Select Authorization Type</option>
                 <option value="Individual Authorization">
                   Individual Authorization
                 </option>
@@ -1591,10 +1603,12 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium mb-2">Issue Date</label>
+                <label class="block text-sm font-medium mb-2"
+                  >Validity Date</label
+                >
                 <input
                   type="date"
-                  id="license-issue-date"
+                  id="authorization-validity-date"
                   required
                   class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                 />
@@ -1605,8 +1619,7 @@
                 >
                 <input
                   type="date"
-                  id="license-expiry-date"
-                  required
+                  id="authorization-expiry-date"
                   class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
@@ -1614,7 +1627,7 @@
             <div>
               <label class="block text-sm font-medium mb-2">Status</label>
               <select
-                id="license-status"
+                id="authorization-status"
                 required
                 class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               >
@@ -1624,10 +1637,20 @@
                 <option value="Expired">Expired</option>
               </select>
             </div>
+            <div>
+              <label class="block text-sm font-medium mb-2"
+                >Amendment Date</label
+              >
+              <input
+                type="date"
+                id="authorization-amendment-date"
+                class="w-full bg-neutral2 border border-neutral2 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
             <div class="flex justify-end space-x-4 pt-4">
               <button
                 type="button"
-                id="cancel-add-license-btn"
+                id="cancel-add-authorization-btn"
                 class="px-4 py-2 border border-neutral2 rounded-lg hover:bg-neutral2"
               >
                 Cancel
@@ -1636,7 +1659,7 @@
                 type="submit"
                 class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg"
               >
-                Add License
+                Add Authorization
               </button>
             </div>
           </form>
@@ -1822,8 +1845,8 @@
         },
         {
           id: "DOC-2024-002",
-          title: "License Agreement",
-          relatedTo: "LIC-2024-001",
+          title: "Authorization Agreement",
+          relatedTo: "EXP-IND-2024-001",
           fileType: "PDF",
           uploadedBy: "Admin User",
           uploadDate: "2024-01-15",
@@ -1839,9 +1862,9 @@
       ];
 
       const relatedEntities = {
-        license: [
-          { id: "LIC-2024-001", name: "Individual Authorization" },
-          { id: "LIC-2024-002", name: "Global Authorization" },
+        authorization: [
+          { id: "EXP-IND-2024-001", name: "Individual Authorization" },
+          { id: "EXP-GLB-2024-002", name: "Global Authorization" },
         ],
         report: [{ id: "REP-2024-001", name: "Q3 Compliance" }],
         utilization: [
@@ -1890,10 +1913,13 @@
           close: ["close-edit-modal", "cancel-edit-btn"],
           form: "edit-company-form",
         },
-        "add-license": {
-          open: "add-license-btn",
-          close: ["close-add-license-modal", "cancel-add-license-btn"],
-          form: "add-license-form",
+        "add-authorization": {
+          open: "add-authorization-btn",
+          close: [
+            "close-add-authorization-modal",
+            "cancel-add-authorization-btn",
+          ],
+          form: "add-authorization-form",
         },
         "upload-document": {
           open: "upload-document-btn",
@@ -1925,9 +1951,9 @@
         }
       });
 
-      // License authorization details
+      // Authorization type details
       document
-        .getElementById("license-authorization")
+        .getElementById("authorization-type")
         .addEventListener("change", (e) => {
           const details = document.getElementById("authorization-details");
           const text = document.getElementById("authorization-details-text");
@@ -2001,8 +2027,16 @@
           let aValue = a.children[columnIndex].textContent.trim();
           let bValue = b.children[columnIndex].textContent.trim();
           if (type === "date") {
-            aValue = new Date(aValue);
-            bValue = new Date(bValue);
+            aValue = aValue
+              ? new Date(aValue)
+              : isAscending
+              ? Infinity
+              : -Infinity;
+            bValue = bValue
+              ? new Date(bValue)
+              : isAscending
+              ? Infinity
+              : -Infinity;
           } else if (type === "number") {
             aValue = parseFloat(aValue.replace(/[^0-9.-]+/g, ""));
             bValue = parseFloat(bValue.replace(/[^0-9.-]+/g, ""));
@@ -2099,41 +2133,41 @@
           const row = document.createElement("tr");
           row.className = "border-b border-neutral2 hover:bg-neutral2/50";
           row.innerHTML = `
-      <td class="p-4 font-mono">${doc.id}</td>
-      <td class="p-4">${doc.title}</td>
-      <td class="p-4 font-mono">${doc.relatedTo}</td>
-      <td class="p-4"><span class="file-type-${doc.fileType.toLowerCase()}">${
+        <td class="p-4 font-mono">${doc.id}</td>
+        <td class="p-4">${doc.title}</td>
+        <td class="p-4 font-mono">${doc.relatedTo}</td>
+        <td class="p-4"><span class="file-type-${doc.fileType.toLowerCase()}">${
             doc.fileType
           }</span></td>
-      <td class="p-4">${doc.uploadedBy}</td>
-      <td class="p-4">${doc.uploadDate}</td>
-      <td class="p-4">
-        <div class="flex space-x-2">
-          <button class="view-btn text-primary hover:text-primary/80 p-1" data-document="${
-            doc.id
-          }" title="View">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-            </svg>
-          </button>
-          <button class="download-btn text-accent hover:text-accent/80 p-1" data-document="${
-            doc.id
-          }" title="Download">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-            </svg>
-          </button>
-          <button class="delete-btn text-danger hover:text-danger/80 p-1" data-document="${
-            doc.id
-          }" title="Delete">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4"></path>
-            </svg>
-          </button>
-        </div>
-      </td>
-    `;
+        <td class="p-4">${doc.uploadedBy}</td>
+        <td class="p-4">${doc.uploadDate}</td>
+        <td class="p-4">
+          <div class="flex space-x-2">
+            <button class="view-btn text-primary hover:text-primary/80 p-1" data-document="${
+              doc.id
+            }" title="View">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+            </button>
+            <button class="download-btn text-accent hover:text-accent/80 p-1" data-document="${
+              doc.id
+            }" title="Download">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+              </svg>
+            </button>
+            <button class="delete-btn text-danger hover:text-danger/80 p-1" data-document="${
+              doc.id
+            }" title="Delete">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      `;
           tbody.appendChild(row);
         });
 
@@ -2149,7 +2183,7 @@
 
       // Initialize tables
       [
-        "licenses-table",
+        "authorizations-table",
         "compliance-table",
         "utilizations-table",
         "alerts-table",
